@@ -1,0 +1,80 @@
+spring:
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: shUrl
+    ### потребительская конфигурация
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group-id
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      max-poll-records: 1
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    listener:
+      concurrency: 5
+      topics:
+        sorm-clients: SORM.CLIENTS
+        sorm-common-payments: SORM.COMMONPAYMENTS
+
+  quartz:
+    job-interval: 10000
+
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: log
+    password: psw
+    driverClassName: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        user_sql_comments: true
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+server:
+  port: 8180
+
+logging:
+  file:
+    name: /home/Alex/wrtn.log
+  logback:
+    rollingpolicy:
+      max-history: 2
+      max-file-size: 10MB
+  level:
+    root: info
+    org:
+      springframework: info
+
+ftp:
+  host: host
+  port: port
+  local-directory: /home/ftp
+  remote-read-directory: /opt/sorm_ftp/read
+  remote-write-directory: /opt/sorm_ftp/write
+  remote-directory-poller-delay: 1000
+  validation-check-delay: 1000
+  error-file-receiving-timeout: 1000
+  users:
+    write-user:
+      username: username
+      password: password
+    read-user:
+      username: user
+      password: psw
+
+mail:
+  protocol: smtp
+  port: 587 
+  host: smtp.host.com
+  from: mail@mail.com
+  to: mail@mail.com, secomdMail@mail.com
+  ssl-enabled: false
+  tls-enabled: true
+  debug-enabled: true
+  username: usr
+  password: psw
